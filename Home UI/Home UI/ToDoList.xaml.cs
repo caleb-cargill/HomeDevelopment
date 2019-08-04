@@ -229,9 +229,62 @@ namespace Home_UI
             ReadItems();
         }
 
+        /// <summary>
+        /// Checks to see if all fields are filled out to enable add button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TbDueDate_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (tbDueDate.Text != "" && tbItemName.Text != "" && cbPriority.SelectedItem != null)
+            {
+                btnAdd.IsEnabled = true;
+            }
+            else
+            {
+                btnAdd.IsEnabled = false;
+            }
+        }
+
+        /// <summary>
+        /// Checks to see if all fields are filled out to enable add button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CbPriority_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (tbDueDate.Text != "" && tbItemName.Text != "" && cbPriority.SelectedItem != null)
+            {
+                btnAdd.IsEnabled = true;
+            }
+            else
+            {
+                btnAdd.IsEnabled = false;
+            }
+        }
+
+        /// <summary>
+        /// Checks to see if all fields are filled out to enable add button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TbItemName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (tbDueDate.Text != "" && tbItemName.Text != "" && cbPriority.SelectedItem != null)
+            {
+                btnAdd.IsEnabled = true;
+            }
+            else
+            {
+                btnAdd.IsEnabled = false;
+            }
+        }
+
         #endregion
 
         #endregion
+
+
     }
 }
 
