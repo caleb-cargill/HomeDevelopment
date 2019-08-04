@@ -55,8 +55,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ToDoProperties.cs" />
-    <Page Include="ToDoList.xaml">
+    <Compile Include="Home Hub\HomeHub.xaml.cs">
+      <DependentUpon>HomeHub.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="To Do List\ToDoProperties.cs" />
+    <Page Include="Home Hub\HomeHub.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="To Do List\ToDoList.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -64,7 +71,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ToDoList.xaml.cs">
+    <Compile Include="To Do List\ToDoList.xaml.cs">
       <DependentUpon>ToDoList.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -95,8 +102,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="To Do List\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
