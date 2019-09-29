@@ -22,7 +22,7 @@
                  Grid.Column="0"
                  Grid.Row="0"
                  Margin="10 10 2 10"
-                 Text="{Binding ToDoName, Mode=TwoWay}"
+                 Text="{Binding ToDoName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  TextChanged="TbItemName_TextChanged">
         </TextBox>
         <ComboBox Name="cbPriority"
@@ -30,14 +30,14 @@
                   Grid.Row="0"
                   Margin="2 10 2 10"
                   ItemsSource="{Binding Priorities, Mode=OneWay}"
-                  SelectedItem="{Binding Priority, Mode=TwoWay}"
+                  SelectedItem="{Binding Priority, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                   SelectionChanged="CbPriority_SelectionChanged">
         </ComboBox>
         <TextBox Name="tbDueDate"
                   Grid.Column="2"
                   Grid.Row="0"
                   Margin="2 10 2 10"
-                  Text="{Binding DueDate, Mode=TwoWay, StringFormat=MM/dd}"
+                  Text="{Binding DueDate, Mode=TwoWay, StringFormat=MM/dd, UpdateSourceTrigger=PropertyChanged}"
                   TextChanged="TbDueDate_TextChanged">
         </TextBox>
         <Button Name="btnAdd"
@@ -63,12 +63,21 @@
                   Grid.ColumnSpan="4" 
                   Grid.Row="1" 
                   Margin="10"
-                  ItemsSource="{Binding ToDoItems, Mode=TwoWay, UpdateSourceTrigger=LostFocus}">
+                  ItemsSource="{Binding Path=ToDoItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <ListView.ContextMenu>
+                <ContextMenu Name="cmDeleteOrEdit" StaysOpen="True">
+                    <ContextMenu.BitmapEffect>
+                        <BitmapEffectGroup/>
+                    </ContextMenu.BitmapEffect>
+                    <MenuItem Header="Edit" Name="cmEdit" Click="CmEdit_Click"/>
+                    <MenuItem Header="Delete" Name="cmDelete" Click="CmDelete_Click"/>
+                </ContextMenu>
+            </ListView.ContextMenu>
             <ListView.View>
                 <GridView AllowsColumnReorder="False">
-                    <GridViewColumn Header="Item Name" Width="243" DisplayMemberBinding="{Binding Name}"/>
-                    <GridViewColumn Header="Priority" Width="55" DisplayMemberBinding="{Binding Priority}"/>
-                    <GridViewColumn Header="Due" Width="80" DisplayMemberBinding="{Binding Date}"/>
+                    <GridViewColumn Header="Item Name" Width="243" DisplayMemberBinding="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                    <GridViewColumn Header="Priority" Width="55" DisplayMemberBinding="{Binding Priority, UpdateSourceTrigger=PropertyChanged}"/>
+                    <GridViewColumn Header="Due" Width="80" DisplayMemberBinding="{Binding Date, UpdateSourceTrigger=PropertyChanged}"/>
                 </GridView>
             </ListView.View>
         </ListView>
@@ -80,7 +89,7 @@
         </ListView>
 
         <!--TO DO:-->
-        <!--Add a context menu function to delete or edit entries-->
+        <!--Fix edit context menu function-->
         <!--Somehow do not let user enter ':' into name, or split a different way?-->
         <!--Force correct formatting of date?-->
         <!--Color list view items light red if it is due today-->

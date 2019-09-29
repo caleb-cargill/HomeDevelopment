@@ -1,0 +1,33 @@
+﻿<Window x:Class="Home_UI.To_Do_List.EditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Home_UI.To_Do_List"
+        mc:Ignorable="d"
+        Title="Edit To-Do Item" SizeToContent="WidthAndHeight">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="75"/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Column="0" Orientation="Vertical">
+            <Label>Item Name:</Label>
+            <Label>Priority:</Label>
+            <Label>Due Date:</Label>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Orientation="Vertical">
+            <TextBox x:Name="tbNewName" Margin="0 6 10 3" Text="{Binding Path=NewName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <ComboBox x:Name="cbNewPriority" Margin="0 3 125 3" ItemsSource="{Binding Path=NewPriorities, Mode=OneWay}" SelectedItem="{Binding Path=NewPriority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></ComboBox>
+            <TextBox x:Name="tbNewDate" Margin="0 3 125 5" Text="{Binding Path=NewDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        </StackPanel>
+        <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Margin="5" Name="btnFinish" Click="BtnFinish_Click">Finish</Button>
+            <Button Margin="5" Name="btnCancel" Click="BtnFinish_Click">Cancel</Button>
+        </StackPanel>
+    </Grid>
+</Window>

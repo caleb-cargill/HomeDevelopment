@@ -13,13 +13,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Home_UI.To_Do_List;
+using System.ComponentModel;
 
 namespace Home_UI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class ToDoList : Window
+    public partial class ToDoList : Window, INotifyPropertyChanged
     {
 
         #region "Constructor"
@@ -33,7 +35,7 @@ namespace Home_UI
 
             // Initialize _toDoItems, check excel spreadsheet 
             SetListViewProps();
-        }
+        }        
 
         #endregion
 
@@ -51,6 +53,7 @@ namespace Home_UI
             set
             {
                 _toDoName = value;
+                OnPropertyChanged("ToDoName");
             }
         }
         private string _toDoName;
@@ -67,6 +70,7 @@ namespace Home_UI
             set
             {
                 _priority = value;
+                OnPropertyChanged("Priority");
             }
         }
         private string _priority;
@@ -101,6 +105,7 @@ namespace Home_UI
             set
             {
                 _dueDate = value;
+                OnPropertyChanged("DueDate");
             }
         }
         private string _dueDate;
@@ -117,6 +122,7 @@ namespace Home_UI
             set
             {
                 _toDoItems = value;
+                OnPropertyChanged("ToDoItems");
             }
         }
         private List<ToDoProperties> _toDoItems;
@@ -126,6 +132,28 @@ namespace Home_UI
             get
             {
                 return @"C:\Home_UI\ToDoList\ToDoList.txt";
+            }
+        }
+
+        #endregion
+
+        #region "Events"
+
+        /// <summary>
+        /// Event for property change call
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Method to handle property change
+        /// </summary>
+        /// <param name="name"></param>
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
             }
         }
 
@@ -181,7 +209,8 @@ namespace Home_UI
         private void ReadItems()
         {
             // Reset ToDoItems and read text document
-            ToDoItems.Clear();
+            List<ToDoProperties> toDos = new List<ToDoProperties>();
+            ToDoItems = toDos;
             string[] lines = File.ReadAllLines(TextDocFilePath);
 
             // Look at each line from the text document and set ToDoItems
@@ -192,8 +221,10 @@ namespace Home_UI
                 item.Name = props[0];
                 item.Priority = props[1];
                 item.Date = props[2];
-                ToDoItems.Add(item);
-            }                
+                toDos.Add(item);
+            }
+
+            ToDoItems = toDos;
         }
 
         #endregion
@@ -280,7 +311,91 @@ namespace Home_UI
             }
         }
 
+
         #endregion
+
+        #region "Context Menu Methods"
+
+        /// <summary>
+        /// Context menu function to edit a currently selected to do item
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CmEdit_Click(object sender, RoutedEventArgs e)
+        {
+            // Get the selected item
+            ToDoProperties selectedProps = (ToDoProperties)lvToDo.SelectedItem;
+            string myItem = selectedProps.Name + ":" + selectedProps.Priority + ":" + selectedProps.Date;
+
+            // Show a new edit form and return edited version 
+            EditWindow edit = new EditWindow(selectedProps.Name, selectedProps.Priority, selectedProps.Date);
+            edit.ShowDialog();
+            string newItem = edit.NewName + ":" + edit.NewPriority + ":" + edit.NewDate;
+
+            // Reset ToDoItems and read text document
+            ToDoItems.Clear();
+            string[] lines = File.ReadAllLines(TextDocFilePath);
+
+            // Look at each line from the text document and set ToDoItems
+            foreach (string line in lines)
+            {
+                if (line != myItem)
+                {
+                    string[] props = line.Split(':');
+                    ToDoProperties item = new ToDoProperties();
+                    item.Name = props[0];
+                    item.Priority = props[1];
+                    item.Date = props[2];
+                    ToDoItems.Add(item);
+                }
+            }
+
+            // Add edited item
+            string[] newProps = newItem.Split(':');
+            ToDoProperties editItem = new ToDoProperties();
+            editItem.Name = newProps[0];
+            editItem.Priority = newProps[1];
+            editItem.Date = newProps[2];
+            ToDoItems.Add(editItem);
+
+            // Rewrite the text document to update
+            WriteItems();
+        }
+
+        /// <summary>
+        /// Context menu function to delete a currently selected to do item
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CmDelete_Click(object sender, RoutedEventArgs e)
+        {
+            // Get the selected item
+            ToDoProperties selectedProps = (ToDoProperties)lvToDo.SelectedItem;
+            string myItem = selectedProps.Name + ":" + selectedProps.Priority + ":" + selectedProps.Date;
+
+            // Reset ToDoItems and read text document
+            ToDoItems.Clear();
+            string[] lines = File.ReadAllLines(TextDocFilePath);
+
+            // Look at each line from the text document and set ToDoItems, removing the deleted one
+            foreach (string line in lines)
+            {
+                if (line != myItem)
+                {
+                    string[] props = line.Split(':');
+                    ToDoProperties item = new ToDoProperties();
+                    item.Name = props[0];
+                    item.Priority = props[1];
+                    item.Date = props[2];
+                    ToDoItems.Add(item);
+                }
+            }
+
+            // Rewrite the text document to update
+            WriteItems();
+        }
+
+        #endregion       
 
         #endregion
 
