@@ -1,2 +1,2 @@
 # HomeDevelopment
-Just some pet projects for me
+Just some WPF pet projects for me
