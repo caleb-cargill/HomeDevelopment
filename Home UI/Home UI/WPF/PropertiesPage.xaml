@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="Home_UI.WPF.PropertiesPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Home_UI.WPF"             
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             MinWidth="500">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*" MaxWidth="260"/>
+            <ColumnDefinition Width="*" MaxWidth="125"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <!--Item Name-->
+        <GroupBox Header="Name" Grid.Column="0" Grid.Row="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox />
+            </Grid>
+        </GroupBox>
+        
+        <!--Item Due Date-->
+        <!--<commUI:DateSelectorBox DateSelectorHeader="Due Date" 
+                               MinYear="{Binding Path=CurrentYear, UpdateSourceTrigger=PropertyChanged}" 
+                               Grid.Row="0" 
+                               Grid.Column="1"/>-->
+
+        <!--Item Priority-->
+        <GroupBox Header="Priority" Grid.Row="0" Grid.Column="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <ComboBox />
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Header="Tags" Grid.Row="1">
+            <!--<commUI:CategoryTag />-->
+        </GroupBox>
+        
+        <!--Detailed Information - Description/Comments, Child/Parent Items-->
+        <StackPanel>
+
+        </StackPanel>
+
+    </Grid>
+</UserControl>

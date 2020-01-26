@@ -1,0 +1,33 @@
+﻿<Window x:Class="CAZ.Common.UI.WPF.InputBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CAZ.Common.UI.WPF"
+        xmlns:convert="clr-namespace:CAZ.Common.UI.Converters"
+        mc:Ignorable="d"
+        Title="{Binding InputTitle, UpdateSourceTrigger=PropertyChanged}" 
+        SizeToContent="WidthAndHeight">
+    <Window.Resources>
+        <convert:BooleanToVisibilityConverter x:Key="btvc"/>
+    </Window.Resources>
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <Label Content="{Binding DefaultMessage, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBox x:Name="TbTextInput"
+                           Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
+                           Visibility="{Binding IsTextBlock, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource btvc}}"/>
+            <ComboBox ItemsSource="{Binding ComboBoxItems, UpdateSourceTrigger=PropertyChanged}"
+                          Visibility="{Binding IsComboBox, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource btvc}}"
+                          SelectedItem="{Binding Value, UpdateSourceTrigger=PropertyChanged}"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="BtnCancel" Content="Cancel" Click="BtnCancel_Click" HorizontalAlignment="Right"/>
+                <Button x:Name="BtnOK" Content="OK" Click="BtnOK_Click" HorizontalAlignment="Right"/>
+            </StackPanel>
+            <Label Content="{Binding ErrorMessage, UpdateSourceTrigger=PropertyChanged}"
+                   Foreground="Red"
+                   Visibility="{Binding IsErrorMessageVisible, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+    </Grid>
+</Window>

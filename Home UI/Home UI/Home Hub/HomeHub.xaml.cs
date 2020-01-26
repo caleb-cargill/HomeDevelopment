@@ -48,7 +48,8 @@ namespace Home_UI.Home_Hub
 
         private void BtnBudget_Click(object sender, RoutedEventArgs e)
         {
-
+            Home_UI.Home_Hub.BudgetBuddy bb = new BudgetBuddy();
+            bb.Show();
         }
 
         private void BtnHomeworkPlanner_Click(object sender, RoutedEventArgs e)

@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAZ Project Phoebe", "Home UI\CAZ Project Phoebe.csproj", "{82752246-80CE-493C-8D62-C976223BA94E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAZ Common UI", "CAZ Common UI\CAZ Common UI.csproj", "{0507DA4C-B7B6-4608-83BF-900697A4C45A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CAZ Common", "CAZ Common\CAZ Common.csproj", "{2AE8C052-DF5E-4544-8769-C5FA24AF9FD1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CAZ DB", "CAZ DB\CAZ DB.csproj", "{86C2065B-64C0-4702-8B39-A1A923740248}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAZ Revit Ribbon", "CAZ Revit Ribbon\CAZ Revit Ribbon.csproj", "{D048CE55-B030-4FF5-8591-C0F8047C3A93}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAZ Revit", "CAZ Revit\CAZ Revit.csproj", "{9BB97AC8-208C-4C60-BC93-4CA48109EC69}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{82752246-80CE-493C-8D62-C976223BA94E}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{82752246-80CE-493C-8D62-C976223BA94E}.Debug|Any CPU.Build.0 = Release|Any CPU
+		{82752246-80CE-493C-8D62-C976223BA94E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82752246-80CE-493C-8D62-C976223BA94E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0507DA4C-B7B6-4608-83BF-900697A4C45A}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{0507DA4C-B7B6-4608-83BF-900697A4C45A}.Debug|Any CPU.Build.0 = Release|Any CPU
+		{0507DA4C-B7B6-4608-83BF-900697A4C45A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0507DA4C-B7B6-4608-83BF-900697A4C45A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AE8C052-DF5E-4544-8769-C5FA24AF9FD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AE8C052-DF5E-4544-8769-C5FA24AF9FD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AE8C052-DF5E-4544-8769-C5FA24AF9FD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AE8C052-DF5E-4544-8769-C5FA24AF9FD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86C2065B-64C0-4702-8B39-A1A923740248}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86C2065B-64C0-4702-8B39-A1A923740248}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86C2065B-64C0-4702-8B39-A1A923740248}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86C2065B-64C0-4702-8B39-A1A923740248}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D048CE55-B030-4FF5-8591-C0F8047C3A93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D048CE55-B030-4FF5-8591-C0F8047C3A93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D048CE55-B030-4FF5-8591-C0F8047C3A93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D048CE55-B030-4FF5-8591-C0F8047C3A93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BB97AC8-208C-4C60-BC93-4CA48109EC69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BB97AC8-208C-4C60-BC93-4CA48109EC69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BB97AC8-208C-4C60-BC93-4CA48109EC69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BB97AC8-208C-4C60-BC93-4CA48109EC69}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B120DD5B-12CF-4263-9F2F-9E588D8D789D}
+	EndGlobalSection
+EndGlobal

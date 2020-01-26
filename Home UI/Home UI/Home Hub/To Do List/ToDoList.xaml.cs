@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 using Home_UI.To_Do_List;
 using System.ComponentModel;
 
-namespace Home_UI
+namespace Home_UI.Home_Hub
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
