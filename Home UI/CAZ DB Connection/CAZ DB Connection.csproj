@@ -50,12 +50,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="caz_dev_db_tables.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>caz_dev_db_tables.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="DB Connections.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -65,17 +59,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="caz_dev_db_tables.xsc">
-      <DependentUpon>caz_dev_db_tables.xsd</DependentUpon>
-    </None>
-    <None Include="caz_dev_db_tables.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>caz_dev_db_tables.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="caz_dev_db_tables.xss">
-      <DependentUpon>caz_dev_db_tables.xsd</DependentUpon>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAZ Revit Ribbon", "CAZ Rev
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAZ Revit", "CAZ Revit\CAZ Revit.csproj", "{9BB97AC8-208C-4C60-BC93-4CA48109EC69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAZ DB Connection", "CAZ DB Connection\CAZ DB Connection.csproj", "{AFA121A9-E14F-4CA9-B9C2-C9E06327F3D3}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,10 +45,6 @@ Global
 		{9BB97AC8-208C-4C60-BC93-4CA48109EC69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BB97AC8-208C-4C60-BC93-4CA48109EC69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BB97AC8-208C-4C60-BC93-4CA48109EC69}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AFA121A9-E14F-4CA9-B9C2-C9E06327F3D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AFA121A9-E14F-4CA9-B9C2-C9E06327F3D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AFA121A9-E14F-4CA9-B9C2-C9E06327F3D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AFA121A9-E14F-4CA9-B9C2-C9E06327F3D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

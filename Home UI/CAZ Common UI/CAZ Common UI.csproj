@@ -66,12 +66,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="WPF\CategoryTag.xaml.cs" />
+    <Compile Include="WPF\CategoryTag.xaml.cs">
+      <DependentUpon>CategoryTag.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WPF\CustomTab.xaml.cs">
       <DependentUpon>CustomTab.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WPF\DateSelectorBox.xaml.cs" />
-    <Compile Include="WPF\InputBox.xaml.cs" />
+    <Compile Include="WPF\DateSelectorBox.xaml.cs">
+      <DependentUpon>DateSelectorBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WPF\InputBox.xaml.cs">
+      <DependentUpon>InputBox.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -81,7 +87,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Converters\IntToColorConverter.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

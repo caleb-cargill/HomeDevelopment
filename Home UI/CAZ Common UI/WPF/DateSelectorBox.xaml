@@ -1,35 +1,41 @@
-﻿<UserControl x:Class="CAZ.Common.UI.WPF.DateSelectorBox"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:CAZ.Common.UI.WPF"
-             xmlns:convert="clr-namespace:CAZ.Common.UI.Converters"
-             mc:Ignorable="d" 
-             d:DesignHeight="60" d:DesignWidth="230">
+﻿<UserControl
+    x:Class="CAZ.Common.UI.WPF.DateSelectorBox"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:convert="clr-namespace:CAZ.Common.UI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:CAZ.Common.UI.WPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="60"
+    d:DesignWidth="230"
+    mc:Ignorable="d">
     <UserControl.Resources>
-        <convert:BooleanToVisibilityConverter x:Key="btvc"/>
+        <convert:BooleanToVisibilityConverter x:Key="btvc" />
     </UserControl.Resources>
     <Grid>
         <GroupBox Header="{Binding Path=DateSelectorHeader, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal">
-                <ComboBox ItemsSource="{Binding Path=Months, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                      SelectedItem="{Binding Path=SelectedMonth, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                      Margin="5 0 5 0"
-                      Width="100"/>
-                <ComboBox ItemsSource="{Binding Path=Days, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                      SelectedItem="{Binding Path=SelectedDay, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                      Margin="0 0 5 0"
-                      Width="50"/>
-                <ComboBox ItemsSource="{Binding Path=Years, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                      SelectedItem="{Binding Path=SelectedYear, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                      Margin="0 0 5 0"
-                      Width="75"/>
+                    <ComboBox
+                        Width="100"
+                        Margin="5,0,5,0"
+                        ItemsSource="{Binding Path=Months, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                        SelectedItem="{Binding Path=SelectedMonth, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                    <ComboBox
+                        Width="50"
+                        Margin="0,0,5,0"
+                        ItemsSource="{Binding Path=Days, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                        SelectedItem="{Binding Path=SelectedDay, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                    <ComboBox
+                        Width="75"
+                        Margin="0,0,5,0"
+                        ItemsSource="{Binding Path=Years, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                        SelectedItem="{Binding Path=SelectedYear, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 </StackPanel>
-                <TextBlock Text="{Binding Path=ErrorMessage, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                           Visibility="{Binding Path=ShowErrorMessage, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource btvc}}"
-                           Foreground="Red"/>
+                <TextBlock
+                    Foreground="Red"
+                    Text="{Binding Path=ErrorMessage, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                    Visibility="{Binding Path=ShowErrorMessage, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource btvc}}" />
             </StackPanel>
         </GroupBox>
     </Grid>
