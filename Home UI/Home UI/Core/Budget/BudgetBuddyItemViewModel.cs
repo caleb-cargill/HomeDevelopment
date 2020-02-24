@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Home_UI.Home_Hub
+namespace Project_Core
 {
     public class BudgetBuddyItemViewModel
     {

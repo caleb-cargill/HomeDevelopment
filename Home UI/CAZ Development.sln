@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAZ Project Phoebe", "Home UI\CAZ Project Phoebe.csproj", "{82752246-80CE-493C-8D62-C976223BA94E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAZ Project Core", "Home UI\CAZ Project Core.csproj", "{82752246-80CE-493C-8D62-C976223BA94E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAZ Common UI", "CAZ Common UI\CAZ Common UI.csproj", "{0507DA4C-B7B6-4608-83BF-900697A4C45A}"
 EndProject

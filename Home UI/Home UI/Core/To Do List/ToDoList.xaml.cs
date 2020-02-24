@@ -13,10 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Home_UI.To_Do_List;
 using System.ComponentModel;
 
-namespace Home_UI.Home_Hub
+namespace Project_Core
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

@@ -11,7 +11,7 @@ using System.Windows.Input;
 using CAZ_Common.Commands;
 using System.Windows.Data;
 
-namespace Home_UI.Home_Hub
+namespace Project_Core
 {
     class BudgetBuddyViewModel : INotifyPropertyChanged
     {

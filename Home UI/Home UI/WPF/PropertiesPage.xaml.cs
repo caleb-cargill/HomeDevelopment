@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Home_UI.WPF
+namespace Project_Core
 {
     /// <summary>
     /// Interaction logic for PropertiesPage.xaml

@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Home_UI.Home_Hub
+namespace Project_Core
 {
     /// <summary>
     /// Interaction logic for HomeHub.xaml
     /// </summary>
-    public partial class HomeHub : Window
+    public partial class Core : Window
     {
-        public HomeHub()
+        public Core()
         {
             InitializeComponent();
         }
@@ -36,30 +36,15 @@ namespace Home_UI.Home_Hub
             toDo.Show();
         }
 
-        private void BtnDevExplorer_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void BtnQuickAccess_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
+        /// <summary>
+        /// Launches the budgetting tool
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnBudget_Click(object sender, RoutedEventArgs e)
         {
-            Home_UI.Home_Hub.BudgetBuddyView bb = new BudgetBuddyView();
+            BudgetBuddyView bb = new BudgetBuddyView();
             bb.Show();
-        }
-
-        private void BtnHomeworkPlanner_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void BtnNotes_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

@@ -72,38 +72,34 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Budget\Algorithm.cs" />
-    <Compile Include="Home Hub\Budget\BudgetBuddyItemViewModel.cs" />
-    <Compile Include="Home Hub\Budget\BudgetBuddyView.xaml.cs">
+    <Compile Include="Core\Budget\BudgetBuddyItemViewModel.cs" />
+    <Compile Include="Core\Budget\BudgetBuddyView.xaml.cs">
       <DependentUpon>BudgetBuddyView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Home Hub\Budget\BudgetBuddyViewModel.cs" />
-    <Compile Include="Home Hub\HomeHub.xaml.cs">
-      <DependentUpon>HomeHub.xaml</DependentUpon>
+    <Compile Include="Core\Budget\BudgetBuddyViewModel.cs" />
+    <Compile Include="Core\Core.xaml.cs">
+      <DependentUpon>Core.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Home Hub\To Do List\EditWindow.xaml.cs">
+    <Compile Include="Core\To Do List\EditWindow.xaml.cs">
       <DependentUpon>EditWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Home Hub\To Do List\ToDoProperties.cs" />
-    <Compile Include="WPF\ProgressTrackingGrid.xaml.cs">
-      <DependentUpon>ProgressTrackingGrid.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Core\To Do List\ToDoProperties.cs" />
     <Compile Include="WPF\PropertiesPage.xaml.cs">
       <DependentUpon>PropertiesPage.xaml</DependentUpon>
     </Compile>
-    <Page Include="Home Hub\Budget\BudgetBuddyView.xaml">
+    <Page Include="Core\Budget\BudgetBuddyView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Home Hub\HomeHub.xaml">
+    <Page Include="Core\Core.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Home Hub\To Do List\EditWindow.xaml">
+    <Page Include="Core\To Do List\EditWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Home Hub\To Do List\ToDoList.xaml">
+    <Page Include="Core\To Do List\ToDoList.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -111,14 +107,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Home Hub\To Do List\ToDoList.xaml.cs">
+    <Compile Include="Core\To Do List\ToDoList.xaml.cs">
       <DependentUpon>ToDoList.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="WPF\ProgressTrackingGrid.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="WPF\PropertiesPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

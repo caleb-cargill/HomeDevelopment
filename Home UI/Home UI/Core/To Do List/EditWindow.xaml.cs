@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.ComponentModel;
 
-namespace Home_UI.To_Do_List
+namespace Project_Core
 {
     /// <summary>
     /// Interaction logic for EditWindow.xaml

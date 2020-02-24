@@ -10,19 +10,25 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Home_UI.WPF
+namespace Project_Core
 {
     /// <summary>
-    /// Interaction logic for ProgressTrackingGrid.xaml
+    /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class ProgressTrackingGrid : UserControl
+    public partial class BudgetBuddyView : Window
     {
-        public ProgressTrackingGrid()
+        public BudgetBuddyView()
         {
+            this.DataContext = new BudgetBuddyViewModel();
             InitializeComponent();
+        }
+
+        private void dgGeneral_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            if (e.PropertyName.Equals("ID"))
+                e.Column.Visibility = Visibility.Collapsed;
         }
     }
 }
