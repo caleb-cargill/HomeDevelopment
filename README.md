@@ -1,2 +1,2 @@
 # HomeDevelopment
-Just some WPF pet projects for me
+Some home projects nicknamed CAZ (Cargill's A to Z) Development
