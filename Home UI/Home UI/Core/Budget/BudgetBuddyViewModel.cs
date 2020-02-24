@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using CAZ_Common.Commands;
 using System.Windows.Data;
+using CAZ_DB.Access_DB;
 
 namespace Project_Core
 {
@@ -26,65 +27,33 @@ namespace Project_Core
 
         public BudgetBuddyViewModel()
         {
-            InitializeTable();
+
         }
 
-        public DataTable AccountTable
+        public List<BudgetBuddyItem> AccountItems
         {
             get
             {
-                return _accountTable;
-            }
-            set
-            {
-                _accountTable = value;
+                return BudgetBuddyItems.GetBudgetItems();
             }
         }
-        private DataTable _accountTable;
 
-        public CollectionViewSource BudgetBuddyDataView
+        public BudgetBuddyItem AccountItem
         {
             get
             {
-                _budgetBuddyDataView = new CollectionViewSource();
-                _budgetBuddyDataView.Source = AccountItems;
-                return _budgetBuddyDataView;
+                if (_accountItem == null)
+                    _accountItem = new BudgetBuddyItem();
+                return _accountItem;
             }
             set
             {
-                _budgetBuddyDataView = value;
+                _accountItem = value;
                 OnPropertyChanged();
             }
         }
-        private CollectionViewSource _budgetBuddyDataView;
+        private BudgetBuddyItem _accountItem;
 
-        public BudgetBuddyItemViewModel ItemToAdd
-        {
-            get
-            {
-                if (_itemToAdd == null)
-                    _itemToAdd = new BudgetBuddyItemViewModel();
-                return _itemToAdd;
-            }
-            set
-            {
-                _itemToAdd = value;
-            }
-        }
-        private BudgetBuddyItemViewModel _itemToAdd;
-
-        public List<BudgetBuddyItemViewModel> AccountItems
-        {
-            get
-            {
-                return _accountItems;
-            }
-            set
-            {
-                _accountItems = value;
-            }
-        }
-        private List<BudgetBuddyItemViewModel> _accountItems;
 
         public List<string> ItemTypes
         {
@@ -102,18 +71,11 @@ namespace Project_Core
             }
         }
 
-        private void InitializeTable()
-        {
-            AccountTable = CAZ_DB.TblBudgetBuddy.GetTable();
-
-            AccountItems = (from DataRow dr in AccountTable.Rows select dr).ToList().Select(dr => new BudgetBuddyItemViewModel(dr[nameof(BudgetBuddyItemViewModel.Date)].ToString(), dr[nameof(BudgetBuddyItemViewModel.Account)].ToString(),dr[nameof(BudgetBuddyItemViewModel.Name)].ToString(), dr[nameof(BudgetBuddyItemViewModel.Type)].ToString(), (decimal)dr[nameof(BudgetBuddyItemViewModel.Amount)], (decimal)dr[nameof(BudgetBuddyItemViewModel.AccountTotal)])).ToList();
-        }
-
         private void AddItem(object commandParameter)
         {
-            AccountItems.Add(ItemToAdd);
+            BudgetBuddyItems.AddItem(AccountItem);
             OnPropertyChanged(nameof(AccountItems));
-            OnPropertyChanged(nameof(BudgetBuddyDataView));
+            AccountItem = null;
         }
 
         /// <summary>

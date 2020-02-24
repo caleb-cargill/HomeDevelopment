@@ -72,14 +72,14 @@
                             Width="100"
                             material:HintAssist.Hint="Pick Date"
                             Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
-                            Text="{Binding ItemToAdd.Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Text="{Binding AccountItem.Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <ComboBox
                             x:Name="cbAccountName"
                             Width="80"
                             Margin="10,0,10,0"
                             material:HintAssist.Hint="Account"
                             ItemsSource="{Binding AccountNames, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                            SelectedItem="{Binding ItemToAdd.Account, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            SelectedItem="{Binding AccountItem.Account, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBox
                             x:Name="tbItemName"
                             Width="150"
@@ -87,7 +87,7 @@
                             VerticalContentAlignment="Center"
                             material:HintAssist.Hint="Name"
                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                            Text="{Binding ItemToAdd.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Text="{Binding AccountItem.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <ComboBox
                             x:Name="tbItemType"
                             Width="75"
@@ -95,7 +95,7 @@
                             VerticalContentAlignment="Center"
                             material:HintAssist.Hint="Type"
                             ItemsSource="{Binding ItemTypes, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                            SelectedItem="{Binding ItemToAdd.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            SelectedItem="{Binding AccountItem.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBox
                             x:Name="tbItemAmount"
                             Width="75"
@@ -103,7 +103,7 @@
                             VerticalContentAlignment="Center"
                             material:HintAssist.Hint="Amount"
                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                            Text="{Binding ItemToAdd.Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Text="{Binding AccountItem.Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBox
                             x:Name="tbNewTotal"
                             Width="75"
@@ -111,7 +111,7 @@
                             VerticalContentAlignment="Center"
                             material:HintAssist.Hint="Account Total"
                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                            Text="{Binding ItemToAdd.AccountTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            Text="{Binding AccountItem.AccountTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <Button
                             x:Name="btnAddItem"
                             Width="Auto"
@@ -130,7 +130,7 @@
                     Margin="10"
                     AutoGeneratingColumn="dgGeneral_AutoGeneratingColumn"
                     CanUserAddRows="False"
-                    ItemsSource="{Binding BudgetBuddyDataView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    ItemsSource="{Binding AccountItems, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
 
             </Grid>
         </material:DrawerHost>

@@ -72,7 +72,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Core\Budget\BudgetBuddyItemViewModel.cs" />
     <Compile Include="Core\Budget\BudgetBuddyView.xaml.cs">
       <DependentUpon>BudgetBuddyView.xaml</DependentUpon>
     </Compile>
@@ -155,6 +154,10 @@
     <ProjectReference Include="..\CAZ DB Connection\CAZ DB Connection.csproj">
       <Project>{afa121a9-e14f-4ca9-b9c2-c9e06327f3d3}</Project>
       <Name>CAZ DB Connection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CAZ DB\CAZ DB.csproj">
+      <Project>{86C2065B-64C0-4702-8B39-A1A923740248}</Project>
+      <Name>CAZ DB</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
