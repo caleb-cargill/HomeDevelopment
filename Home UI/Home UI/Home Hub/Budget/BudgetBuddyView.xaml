@@ -1,0 +1,139 @@
+﻿<Window
+    x:Class="Home_UI.Home_Hub.BudgetBuddyView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Home_UI.Home_Hub"
+    xmlns:material="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="clr-namespace:Home_UI.WPF"
+    Title="CAZ Budget Buddy"
+    Width="800"
+    Height="500"
+    MinWidth="800"
+    MinHeight="500"
+    mc:Ignorable="d">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Teal.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <material:DrawerHost>
+            <material:DrawerHost.LeftDrawerContent>
+                <StackPanel Orientation="Vertical">
+                    <Button Content="Test1" />
+                    <Button Content="Test2" />
+                </StackPanel>
+            </material:DrawerHost.LeftDrawerContent>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <GroupBox
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="10"
+                    Header="Select Account: ">
+                    <StackPanel Orientation="Horizontal">
+                        <RadioButton x:Name="rbAllAccounts" IsChecked="True" />
+                        <TextBlock Margin="0,0,5,0" Text="All Accounts" />
+                        <RadioButton x:Name="rbAccountOne" />
+                        <TextBlock Margin="0,0,5,0" Text="Checking" />
+                        <RadioButton x:Name="rbAccountTwo" />
+                        <TextBlock Margin="0,0,5,0" Text="Savings" />
+                        <RadioButton x:Name="rbAccountThree" />
+                        <TextBlock Margin="0,0,5,0" Text="Reserve" />
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Width="Auto"
+                    Height="Auto"
+                    Margin="10"
+                    Header="Add Item: ">
+                    <StackPanel Orientation="Horizontal">
+                        <DatePicker
+                            Width="100"
+                            material:HintAssist.Hint="Pick Date"
+                            Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                            Text="{Binding ItemToAdd.Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <ComboBox
+                            x:Name="cbAccountName"
+                            Width="80"
+                            Margin="10,0,10,0"
+                            material:HintAssist.Hint="Account"
+                            ItemsSource="{Binding AccountNames, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                            SelectedItem="{Binding ItemToAdd.Account, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox
+                            x:Name="tbItemName"
+                            Width="150"
+                            Margin="10,0,10,0"
+                            VerticalContentAlignment="Center"
+                            material:HintAssist.Hint="Name"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                            Text="{Binding ItemToAdd.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <ComboBox
+                            x:Name="tbItemType"
+                            Width="75"
+                            Margin="10,0,10,0"
+                            VerticalContentAlignment="Center"
+                            material:HintAssist.Hint="Type"
+                            ItemsSource="{Binding ItemTypes, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                            SelectedItem="{Binding ItemToAdd.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox
+                            x:Name="tbItemAmount"
+                            Width="75"
+                            Margin="10,5,10,5"
+                            VerticalContentAlignment="Center"
+                            material:HintAssist.Hint="Amount"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                            Text="{Binding ItemToAdd.Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox
+                            x:Name="tbNewTotal"
+                            Width="75"
+                            Margin="10,0,10,0"
+                            VerticalContentAlignment="Center"
+                            material:HintAssist.Hint="Account Total"
+                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                            Text="{Binding ItemToAdd.AccountTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <Button
+                            x:Name="btnAddItem"
+                            Width="Auto"
+                            Margin="10,0,0,0"
+                            Padding="5"
+                            Command="{Binding AddItemCommand}"
+                            CommandParameter="{x:Static Dock.Left}"
+                            Content="Add" />
+                    </StackPanel>
+                </GroupBox>
+
+                <DataGrid
+                    x:Name="dgGeneral"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="10"
+                    AutoGeneratingColumn="dgGeneral_AutoGeneratingColumn"
+                    CanUserAddRows="False"
+                    ItemsSource="{Binding BudgetBuddyDataView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            </Grid>
+        </material:DrawerHost>
+    </Grid>
+</Window>

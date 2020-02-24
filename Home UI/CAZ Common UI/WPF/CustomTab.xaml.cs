@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Home_UI.Home_Hub
+namespace CAZ.Common.UI
 {
     /// <summary>
-    /// Interaction logic for Window1.xaml
+    /// Interaction logic for CustomTab.xaml
     /// </summary>
-    public partial class BudgetBuddy : Window
+    public partial class CustomTab : UserControl
     {
-        public BudgetBuddy()
+        public CustomTab()
         {
             InitializeComponent();
         }
