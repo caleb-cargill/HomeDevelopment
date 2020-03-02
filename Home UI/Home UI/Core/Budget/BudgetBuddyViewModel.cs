@@ -17,13 +17,15 @@ namespace Project_Core
     class BudgetBuddyViewModel : INotifyPropertyChanged
     {
 
-        #region "Events"
+        #region Events
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
 
         public ICommand AddItemCommand => new CAZ_Common.Commands.DelegateCommand(AddItem);
+
+        public ICommand DeleteItemCommand => new CAZ_Common.Commands.DelegateCommand(DeleteItem);
 
         public BudgetBuddyViewModel()
         {
@@ -63,6 +65,20 @@ namespace Project_Core
             }
         }
 
+        public object SelectedBudgetItem
+        {
+            get
+            {
+                return _selectedBudgetItem;
+            }
+            set
+            {
+                _selectedBudgetItem = value;
+                OnPropertyChanged();
+            }
+        }
+        private object _selectedBudgetItem;
+
         public List<string> AccountNames
         {
             get
@@ -74,6 +90,13 @@ namespace Project_Core
         private void AddItem(object commandParameter)
         {
             BudgetBuddyItems.AddItem(AccountItem);
+            OnPropertyChanged(nameof(AccountItems));
+            AccountItem = null;
+        }
+
+        private void DeleteItem(object commandParameter)
+        {
+            BudgetBuddyItems.DeleteItem(((BudgetBuddyItem)SelectedBudgetItem).ID);
             OnPropertyChanged(nameof(AccountItems));
             AccountItem = null;
         }

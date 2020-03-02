@@ -10,59 +10,125 @@ namespace CAZ_DB.Access_DB
 {
     public static class BudgetBuddyItems
     {
+
+        #region Properties
+
         private static string connection = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source = C:\Users\caleb\source\repos\HomeDevelopment\Home UI\CAZ DB Connection\Access DB\CAZAccessDB.accdb";
         private static string query = "SELECT * FROM Tbl_BudgetBuddy";
         private static DataTable dataTable;
         private static OleDbConnection myConn;
 
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Gets a list of budget buddy items for the application to display
+        /// </summary>
+        /// <returns></returns>
         public static List<BudgetBuddyItem> GetBudgetItems()
         {
+            // Setup connection and command
             myConn = new OleDbConnection(connection);
             OleDbDataAdapter myCmd = new OleDbDataAdapter(query, myConn);
             myConn.Open();
 
+            // fill a data table
             DataSet dtSet = new DataSet();
             myCmd.Fill(dtSet, "Tbl_BudgetBuddy");
             dataTable = dtSet.Tables[0];
 
+            // Create list of BudgetBuddyItems
             List<BudgetBuddyItem> items = new List<BudgetBuddyItem>();
-
             foreach (DataRow dr in dataTable.Rows)
                 items.Add(new BudgetBuddyItem(dr));
 
+            // Close the connection and return the items
             myConn.Close();
-
             return items;
         }
 
+        /// <summary>
+        /// Adds an item to the data base table
+        /// </summary>
+        /// <param name="item"></param>
         public static void AddItem(BudgetBuddyItem item)
         {
+            // Setup connection and parse date
             myConn = new OleDbConnection(connection);
             DateTime date = new DateTime();
             DateTime.TryParse(item.Date, out date);
-            OleDbCommand myCmd = new OleDbCommand("INSERT INTO Tbl_BudgetBuddy (Item Date, Item Name, Item Type, Account, Amount, Account Total) VALUES (@Date, @Name, @Type, @Account, @Amount, @AccountTotal)");
-            myCmd.Connection = myConn;
 
-            myConn.Open();
-            myCmd.Parameters.AddWithValue("@Date", date.ToString("yyyyMMdd"));
-            myCmd.Parameters.AddWithValue("@Name", item.Name);
-            myCmd.Parameters.AddWithValue("@Type", item.Type);
-            myCmd.Parameters.AddWithValue("@Account", item.Account);
-            myCmd.Parameters.AddWithValue("@Amount", Convert.ToDecimal(item.Amount));
-            myCmd.Parameters.AddWithValue("@AccountTotal", Convert.ToDecimal(item.AccountTotal));
-            myCmd.ExecuteNonQuery();
+            try
+            {
+                // Open connection and setup command
+                myConn.Open();
+                OleDbCommand myCmd = new OleDbCommand();
+                myCmd.Connection = myConn;
+
+                // Create insert statement
+                myCmd.CommandText = "insert into Tbl_BudgetBuddy " +
+                    "(ItemDate, ItemName, ItemType, Account, Amount, AccountTotal) " +
+                    "values('" + date.ToString("MM/dd/yyyy") + "'," +
+                    "'" + item.Name + "'," +
+                    "'" + item.Type + "'," +
+                    "'" + item.Account + "'," +
+                    "'" + Convert.ToDecimal(item.Amount) + "'," +
+                    "'" + Convert.ToDecimal(item.AccountTotal) + "')";
+
+                // Execute command
+                myCmd.ExecuteNonQuery();
+            }
+            catch
+            {
+                // TODO: Create error message
+            }
+
+            // Close the connection
             myConn.Close();
         }
+
+        public static void DeleteItem(int id)
+        {
+            // Setup connection and parse date
+            myConn = new OleDbConnection(connection);
+
+            try
+            {
+                // Open connection and setup command
+                myConn.Open();
+                OleDbCommand myCmd = new OleDbCommand();
+                myCmd.Connection = myConn;
+
+                // setup delete command
+                myCmd.CommandText = "delete from Tbl_BudgetBuddy where ID=" + id;
+
+                // execute
+                myCmd.ExecuteNonQuery();
+            }
+            catch
+            {
+
+            }
+
+            // close the connection
+            myConn.Close();
+        }
+
+        #endregion 
+
     }
 
     public class BudgetBuddyItem : INotifyPropertyChanged
     {
 
-        #region "Events"
+        #region Events
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
+
+        #region Constructor
 
         public BudgetBuddyItem()
         {
@@ -74,14 +140,26 @@ namespace CAZ_DB.Access_DB
             dr = _dr;
         }
 
+        #endregion
+
+        #region Properties
+
         private DataRow dr;
+
+        public int ID
+        {
+            get
+            {
+                return dr.Field<int>("ID");
+            }
+        }
 
         public string Date
         {
             get
             {
                 if (_date == null && dr != null)
-                    _date = dr.Field<DateTime>("Item Date").ToString();
+                    _date = dr.Field<DateTime>("ItemDate").ToString();
                 return _date;
             }
             set
@@ -97,7 +175,7 @@ namespace CAZ_DB.Access_DB
             get
             {
                 if (_name == null && dr != null)
-                    _name = dr.Field<string>("Item Name");
+                    _name = dr.Field<string>("ItemName");
                 return _name;
             }
             set
@@ -113,7 +191,7 @@ namespace CAZ_DB.Access_DB
             get
             {
                 if (_type == null && dr != null)
-                    _type = dr.Field<string>("Item Type");
+                    _type = dr.Field<string>("ItemType");
                 return _type;
             }
             set
@@ -161,7 +239,7 @@ namespace CAZ_DB.Access_DB
             get
             {
                 if (_accountTotal == 0 && dr != null)
-                    _accountTotal = Decimal.ToDouble(dr.Field<Decimal>("Account Total"));
+                    _accountTotal = Decimal.ToDouble(dr.Field<Decimal>("AccountTotal"));
                 return _accountTotal;
             }
             set
@@ -171,6 +249,10 @@ namespace CAZ_DB.Access_DB
             }
         }
         private double _accountTotal;
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Raises OnPropertyChanged Event
@@ -182,6 +264,8 @@ namespace CAZ_DB.Access_DB
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName: propertyName));
         }
+
+        #endregion
 
     }
 }

@@ -18,9 +18,14 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Blue.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Teal.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <ContextMenu x:Key="dgcm" x:Name="dgcm">
+                <MenuItem Command="{Binding DeleteItemCommand}" Header="Delete Item" />
+            </ContextMenu>
+
         </ResourceDictionary>
     </Window.Resources>
 
@@ -47,16 +52,27 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Margin="10"
-                    Header="Select Account: ">
+                    Header="Filter: ">
                     <StackPanel Orientation="Horizontal">
-                        <RadioButton x:Name="rbAllAccounts" IsChecked="True" />
-                        <TextBlock Margin="0,0,5,0" Text="All Accounts" />
-                        <RadioButton x:Name="rbAccountOne" />
-                        <TextBlock Margin="0,0,5,0" Text="Checking" />
-                        <RadioButton x:Name="rbAccountTwo" />
-                        <TextBlock Margin="0,0,5,0" Text="Savings" />
-                        <RadioButton x:Name="rbAccountThree" />
-                        <TextBlock Margin="0,0,5,0" Text="Reserve" />
+                        <ComboBox
+                            x:Name="cbType"
+                            Width="75"
+                            Margin="10,0,10,0"
+                            VerticalAlignment="Bottom"
+                            VerticalContentAlignment="Center"
+                            material:HintAssist.Hint="Type"
+                            ItemsSource="{Binding ItemTypes, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                            SelectedItem="{Binding AccountItem.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+                        <ComboBox
+                            x:Name="cbAccount"
+                            Width="80"
+                            Margin="10,0,10,0"
+                            VerticalAlignment="Bottom"
+                            material:HintAssist.Hint="Account"
+                            ItemsSource="{Binding AccountNames, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                            SelectedItem="{Binding AccountItem.Account, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
                     </StackPanel>
                 </GroupBox>
 
@@ -67,9 +83,10 @@
                     Height="Auto"
                     Margin="10"
                     Header="Add Item: ">
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal">
                         <DatePicker
                             Width="100"
+                            VerticalAlignment="Bottom"
                             material:HintAssist.Hint="Pick Date"
                             Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
                             Text="{Binding AccountItem.Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -77,13 +94,16 @@
                             x:Name="cbAccountName"
                             Width="80"
                             Margin="10,0,10,0"
+                            VerticalAlignment="Bottom"
                             material:HintAssist.Hint="Account"
                             ItemsSource="{Binding AccountNames, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                            SelectedItem="{Binding AccountItem.Account, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            SelectedItem="{Binding AccountItem.Account, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
                         <TextBox
                             x:Name="tbItemName"
                             Width="150"
                             Margin="10,0,10,0"
+                            VerticalAlignment="Bottom"
                             VerticalContentAlignment="Center"
                             material:HintAssist.Hint="Name"
                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
@@ -92,14 +112,17 @@
                             x:Name="tbItemType"
                             Width="75"
                             Margin="10,0,10,0"
+                            VerticalAlignment="Bottom"
                             VerticalContentAlignment="Center"
                             material:HintAssist.Hint="Type"
                             ItemsSource="{Binding ItemTypes, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                            SelectedItem="{Binding AccountItem.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            SelectedItem="{Binding AccountItem.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
                         <TextBox
                             x:Name="tbItemAmount"
                             Width="75"
-                            Margin="10,5,10,5"
+                            Margin="10,0,10,0"
+                            VerticalAlignment="Bottom"
                             VerticalContentAlignment="Center"
                             material:HintAssist.Hint="Amount"
                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
@@ -108,6 +131,7 @@
                             x:Name="tbNewTotal"
                             Width="75"
                             Margin="10,0,10,0"
+                            VerticalAlignment="Bottom"
                             VerticalContentAlignment="Center"
                             material:HintAssist.Hint="Account Total"
                             Style="{StaticResource MaterialDesignFloatingHintTextBox}"
@@ -117,6 +141,7 @@
                             Width="Auto"
                             Margin="10,0,0,0"
                             Padding="5"
+                            VerticalAlignment="Bottom"
                             Command="{Binding AddItemCommand}"
                             CommandParameter="{x:Static Dock.Left}"
                             Content="Add" />
@@ -128,9 +153,13 @@
                     Grid.Row="2"
                     Grid.Column="0"
                     Margin="10"
+                    AlternatingRowBackground="LightBlue"
                     AutoGeneratingColumn="dgGeneral_AutoGeneratingColumn"
                     CanUserAddRows="False"
-                    ItemsSource="{Binding AccountItems, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                    ContextMenu="{StaticResource dgcm}"
+                    IsReadOnly="True"
+                    ItemsSource="{Binding AccountItems, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedItem="{Binding SelectedBudgetItem, Mode=OneWayToSource}" />
 
             </Grid>
         </material:DrawerHost>
