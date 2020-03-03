@@ -30,138 +30,182 @@
     </Window.Resources>
 
     <Grid>
-        <material:DrawerHost>
-            <material:DrawerHost.LeftDrawerContent>
-                <StackPanel Orientation="Vertical">
-                    <Button Content="Test1" />
-                    <Button Content="Test2" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <GroupBox
+                Grid.Row="0"
+                Grid.Column="0"
+                Width="Auto"
+                Height="Auto"
+                Margin="5"
+                Header="Add Item: ">
+                <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal">
+                    <DatePicker
+                        Width="100"
+                        VerticalAlignment="Bottom"
+                        material:HintAssist.Hint="Pick Date"
+                        Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                        Text="{Binding AccountItem.Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <ComboBox
+                        x:Name="cbAccountName"
+                        Width="80"
+                        Margin="10,0,10,0"
+                        VerticalAlignment="Bottom"
+                        material:HintAssist.Hint="Account"
+                        ItemsSource="{Binding AccountNames, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                        SelectedItem="{Binding AccountItem.Account, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+                    <TextBox
+                        x:Name="tbItemName"
+                        Width="150"
+                        Margin="10,0,10,0"
+                        VerticalAlignment="Bottom"
+                        VerticalContentAlignment="Center"
+                        material:HintAssist.Hint="Name"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                        Text="{Binding AccountItem.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <ComboBox
+                        x:Name="tbItemType"
+                        Width="75"
+                        Margin="10,0,10,0"
+                        VerticalAlignment="Bottom"
+                        VerticalContentAlignment="Center"
+                        material:HintAssist.Hint="Type"
+                        ItemsSource="{Binding ItemTypes, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                        SelectedItem="{Binding AccountItem.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+                    <TextBox
+                        x:Name="tbItemAmount"
+                        Width="75"
+                        Margin="10,0,10,0"
+                        VerticalAlignment="Bottom"
+                        VerticalContentAlignment="Center"
+                        material:HintAssist.Hint="Amount"
+                        Text="{Binding AccountItem.Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <TextBox.Style>
+                            <Style BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}" TargetType="{x:Type TextBox}">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="ToolTip" Value="Amount of income/expense" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsAmountValid, UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                        <Setter Property="Background" Value="LightPink" />
+                                        <Setter Property="ToolTip" Value="Not a valid input" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+                    <TextBox
+                        x:Name="tbNewTotal"
+                        Width="75"
+                        Margin="10,0,10,0"
+                        VerticalAlignment="Bottom"
+                        VerticalContentAlignment="Center"
+                        material:HintAssist.Hint="Account Total"
+                        Text="{Binding AccountItem.AccountTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <TextBox.Style>
+                            <Style BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}" TargetType="{x:Type TextBox}" >
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="ToolTip" Value="Total amount in account" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsTotalValid, UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                        <Setter Property="Background" Value="LightPink" />
+                                        <Setter Property="ToolTip" Value="Not a valid input" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
+                    <Button
+                        x:Name="btnAddItem"
+                        Width="Auto"
+                        Margin="10,0,0,0"
+                        Padding="5"
+                        VerticalAlignment="Bottom"
+                        Command="{Binding AddItemCommand}"
+                        Content="Add" />
                 </StackPanel>
-            </material:DrawerHost.LeftDrawerContent>
+            </GroupBox>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
+            <GroupBox
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="5"
+                Header="Filter: ">
+                <StackPanel Orientation="Horizontal">
+                    <DatePicker
+                        Width="100"
+                        Margin="10,0,10,0"
+                        VerticalAlignment="Bottom"
+                        material:HintAssist.Hint="From Date"
+                        Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                        Text="{Binding FromDateFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <DatePicker
+                        Width="100"
+                        Margin="10,0,10,0"
+                        VerticalAlignment="Bottom"
+                        material:HintAssist.Hint="To Date"
+                        Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                        Text="{Binding ToDateFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <ComboBox
+                        x:Name="cbType"
+                        Width="75"
+                        Margin="10,0,10,0"
+                        VerticalAlignment="Bottom"
+                        VerticalContentAlignment="Center"
+                        material:HintAssist.Hint="Type"
+                        ItemsSource="{Binding FilterItemTypes, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                        SelectedItem="{Binding SelectedType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+                    <ComboBox
+                        x:Name="cbAccount"
+                        Width="80"
+                        Margin="10,0,10,0"
+                        VerticalAlignment="Bottom"
+                        material:HintAssist.Hint="Account"
+                        ItemsSource="{Binding FilterAccountNames, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                        SelectedItem="{Binding SelectedAccount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
+                    <TextBox
+                        x:Name="tbSearch"
+                        Width="200"
+                        Margin="10,0,10,0"
+                        VerticalAlignment="Bottom"
+                        material:HintAssist.Hint="Search"
+                        Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                        Text="{Binding SearchedItem, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                    <Button
+                        x:Name="btnResetFilter"
+                        Width="Auto"
+                        Margin="10,0,0,0"
+                        Padding="5"
+                        VerticalAlignment="Bottom"
+                        Command="{Binding ResetFilterCommand}"
+                        Content="Reset Filter" />
+                </StackPanel>
+            </GroupBox>
 
-                <GroupBox
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Margin="10"
-                    Header="Filter: ">
-                    <StackPanel Orientation="Horizontal">
-                        <ComboBox
-                            x:Name="cbType"
-                            Width="75"
-                            Margin="10,0,10,0"
-                            VerticalAlignment="Bottom"
-                            VerticalContentAlignment="Center"
-                            material:HintAssist.Hint="Type"
-                            ItemsSource="{Binding ItemTypes, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                            SelectedItem="{Binding AccountItem.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
-                        <ComboBox
-                            x:Name="cbAccount"
-                            Width="80"
-                            Margin="10,0,10,0"
-                            VerticalAlignment="Bottom"
-                            material:HintAssist.Hint="Account"
-                            ItemsSource="{Binding AccountNames, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                            SelectedItem="{Binding AccountItem.Account, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
-                    </StackPanel>
-                </GroupBox>
+            <DataGrid
+                x:Name="dgGeneral"
+                Grid.Row="2"
+                Grid.Column="0"
+                Margin="5"
+                AlternatingRowBackground="LightBlue"
+                AutoGeneratingColumn="dgGeneral_AutoGeneratingColumn"
+                CanUserAddRows="False"
+                ContextMenu="{StaticResource dgcm}"
+                IsReadOnly="True"
+                ItemsSource="{Binding AccountItems, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                SelectedItem="{Binding SelectedBudgetItem, Mode=OneWayToSource}" />
 
-                <GroupBox
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    Width="Auto"
-                    Height="Auto"
-                    Margin="10"
-                    Header="Add Item: ">
-                    <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal">
-                        <DatePicker
-                            Width="100"
-                            VerticalAlignment="Bottom"
-                            material:HintAssist.Hint="Pick Date"
-                            Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
-                            Text="{Binding AccountItem.Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <ComboBox
-                            x:Name="cbAccountName"
-                            Width="80"
-                            Margin="10,0,10,0"
-                            VerticalAlignment="Bottom"
-                            material:HintAssist.Hint="Account"
-                            ItemsSource="{Binding AccountNames, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                            SelectedItem="{Binding AccountItem.Account, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
-                        <TextBox
-                            x:Name="tbItemName"
-                            Width="150"
-                            Margin="10,0,10,0"
-                            VerticalAlignment="Bottom"
-                            VerticalContentAlignment="Center"
-                            material:HintAssist.Hint="Name"
-                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                            Text="{Binding AccountItem.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <ComboBox
-                            x:Name="tbItemType"
-                            Width="75"
-                            Margin="10,0,10,0"
-                            VerticalAlignment="Bottom"
-                            VerticalContentAlignment="Center"
-                            material:HintAssist.Hint="Type"
-                            ItemsSource="{Binding ItemTypes, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                            SelectedItem="{Binding AccountItem.Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
-                        <TextBox
-                            x:Name="tbItemAmount"
-                            Width="75"
-                            Margin="10,0,10,0"
-                            VerticalAlignment="Bottom"
-                            VerticalContentAlignment="Center"
-                            material:HintAssist.Hint="Amount"
-                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                            Text="{Binding AccountItem.Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBox
-                            x:Name="tbNewTotal"
-                            Width="75"
-                            Margin="10,0,10,0"
-                            VerticalAlignment="Bottom"
-                            VerticalContentAlignment="Center"
-                            material:HintAssist.Hint="Account Total"
-                            Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                            Text="{Binding AccountItem.AccountTotal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <Button
-                            x:Name="btnAddItem"
-                            Width="Auto"
-                            Margin="10,0,0,0"
-                            Padding="5"
-                            VerticalAlignment="Bottom"
-                            Command="{Binding AddItemCommand}"
-                            CommandParameter="{x:Static Dock.Left}"
-                            Content="Add" />
-                    </StackPanel>
-                </GroupBox>
-
-                <DataGrid
-                    x:Name="dgGeneral"
-                    Grid.Row="2"
-                    Grid.Column="0"
-                    Margin="10"
-                    AlternatingRowBackground="LightBlue"
-                    AutoGeneratingColumn="dgGeneral_AutoGeneratingColumn"
-                    CanUserAddRows="False"
-                    ContextMenu="{StaticResource dgcm}"
-                    IsReadOnly="True"
-                    ItemsSource="{Binding AccountItems, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedItem="{Binding SelectedBudgetItem, Mode=OneWayToSource}" />
-
-            </Grid>
-        </material:DrawerHost>
+        </Grid>
     </Grid>
 </Window>

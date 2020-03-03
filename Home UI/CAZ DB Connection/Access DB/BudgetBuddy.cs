@@ -132,7 +132,8 @@ namespace CAZ_DB.Access_DB
 
         public BudgetBuddyItem()
         {
-
+            Amount = "0";
+            AccountTotal = "0";
         }
 
         public BudgetBuddyItem(DataRow _dr)
@@ -218,12 +219,12 @@ namespace CAZ_DB.Access_DB
         }
         private string _account;
 
-        public double Amount
+        public string Amount
         {
             get
             {
-                if (_amount == 0 && dr != null)
-                    _amount = Decimal.ToDouble(dr.Field<Decimal>("Amount"));
+                if (_amount == null && dr != null)
+                    _amount = dr.Field<Decimal>("Amount").ToString();
                 return _amount;
             }
             set
@@ -232,14 +233,14 @@ namespace CAZ_DB.Access_DB
                 OnPropertyChanged();
             }
         }
-        private double _amount;
+        private string _amount;
 
-        public double AccountTotal
+        public string AccountTotal
         {
             get
             {
-                if (_accountTotal == 0 && dr != null)
-                    _accountTotal = Decimal.ToDouble(dr.Field<Decimal>("AccountTotal"));
+                if (_accountTotal == null && dr != null)
+                    _accountTotal = dr.Field<Decimal>("AccountTotal").ToString();
                 return _accountTotal;
             }
             set
@@ -248,7 +249,7 @@ namespace CAZ_DB.Access_DB
                 OnPropertyChanged();
             }
         }
-        private double _accountTotal;
+        private string _accountTotal;
 
         #endregion
 
