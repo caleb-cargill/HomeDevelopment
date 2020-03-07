@@ -5,9 +5,126 @@ using System.Text;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Data.OleDb;
+using System.Collections.ObjectModel;
 
 namespace CAZ_DB.Access_DB
 {
+
+    public static class Accounts
+    {
+
+        #region Properties
+
+        private static string connection = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source = C:\Users\caleb\source\repos\HomeDevelopment\Home UI\CAZ DB Connection\Access DB\CAZAccessDB.accdb";
+        private static string query = "SELECT * FROM Tbl_Accounts";
+        private static DataTable dataTable;
+        private static OleDbConnection myConn;
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Gets a list of budget buddy items for the application to display
+        /// </summary>
+        /// <returns></returns>
+        public static Dictionary<int, string> GetAccounts()
+        {
+            // Setup connection and command
+            myConn = new OleDbConnection(connection);
+            OleDbDataAdapter myCmd = new OleDbDataAdapter(query, myConn);
+            myConn.Open();
+
+            // fill a data table
+            DataSet dtSet = new DataSet();
+            myCmd.Fill(dtSet, "Tbl_Accounts");
+            dataTable = dtSet.Tables[0];
+
+            // Create list of BudgetBuddyItems
+            Dictionary<int, string> items = new Dictionary<int, string>();
+            foreach (DataRow dr in dataTable.Rows)
+                items.Add(Convert.ToInt32(dr["ID"]), dr["AccountName"].ToString());
+
+            // Close the connection and return the items
+            myConn.Close();
+            return items;
+        }
+
+        /// <summary>
+        /// Adds an item to the data base table
+        /// </summary>
+        /// <param name="item"></param>
+        public static void AddAccount(string accountName)
+        {
+            // Setup connection and parse date
+            myConn = new OleDbConnection(connection);
+
+            try
+            {
+                // Open connection and setup command
+                myConn.Open();
+                OleDbCommand myCmd = new OleDbCommand();
+                myCmd.Connection = myConn;
+
+                // Create insert statement
+                myCmd.CommandText = "insert into Tbl_Accounts " +
+                    "(AccountName) " +
+                    "values('" + accountName + "')";
+
+                // Execute command
+                myCmd.ExecuteNonQuery();
+            }
+            catch
+            {
+                // TODO: Create error message
+            }
+
+            // Close the connection
+            myConn.Close();
+        }
+
+        public static void DeleteItem(int id)
+        {
+            // Setup connection and parse date
+            myConn = new OleDbConnection(connection);
+
+            try
+            {
+                // Open connection and setup command
+                myConn.Open();
+                OleDbCommand myCmd = new OleDbCommand();
+                myCmd.Connection = myConn;
+
+                // setup delete command
+                myCmd.CommandText = "delete from Tbl_Accounts where ID=" + id;
+
+                // execute
+                myCmd.ExecuteNonQuery();
+            }
+            catch
+            {
+
+            }
+
+            // close the connection
+            myConn.Close();
+        }
+
+        #endregion 
+
+    }
+
+
+    public static class RecurringItems {
+        public static List<string> GetRecurringItems()
+        {
+            List<string> items = new List<string>();
+
+            return items;
+        }
+    }
+
+
     public static class BudgetBuddyItems
     {
 
@@ -26,7 +143,7 @@ namespace CAZ_DB.Access_DB
         /// Gets a list of budget buddy items for the application to display
         /// </summary>
         /// <returns></returns>
-        public static List<BudgetBuddyItem> GetBudgetItems()
+        public static ObservableCollection<BudgetBuddyItem> GetBudgetItems()
         {
             // Setup connection and command
             myConn = new OleDbConnection(connection);
@@ -39,7 +156,7 @@ namespace CAZ_DB.Access_DB
             dataTable = dtSet.Tables[0];
 
             // Create list of BudgetBuddyItems
-            List<BudgetBuddyItem> items = new List<BudgetBuddyItem>();
+            ObservableCollection<BudgetBuddyItem> items = new ObservableCollection<BudgetBuddyItem>();
             foreach (DataRow dr in dataTable.Rows)
                 items.Add(new BudgetBuddyItem(dr));
 
@@ -57,7 +174,7 @@ namespace CAZ_DB.Access_DB
             // Setup connection and parse date
             myConn = new OleDbConnection(connection);
             DateTime date = new DateTime();
-            DateTime.TryParse(item.Date, out date);
+            DateTime.TryParse(item.Date.ToString(), out date);
 
             try
             {
@@ -132,8 +249,7 @@ namespace CAZ_DB.Access_DB
 
         public BudgetBuddyItem()
         {
-            Amount = "0";
-            AccountTotal = "0";
+
         }
 
         public BudgetBuddyItem(DataRow _dr)
@@ -155,12 +271,14 @@ namespace CAZ_DB.Access_DB
             }
         }
 
-        public string Date
+        public DateTime Date
         {
             get
             {
-                if (_date == null && dr != null)
-                    _date = dr.Field<DateTime>("ItemDate").ToString();
+                if (_date == new DateTime() && dr != null)
+                    _date = dr.Field<DateTime>("ItemDate");
+                if (_date == new DateTime())
+                    _date = DateTime.Today;
                 return _date;
             }
             set
@@ -169,7 +287,7 @@ namespace CAZ_DB.Access_DB
                 OnPropertyChanged();
             }
         }
-        private string _date;
+        private DateTime _date;
 
         public string Name
         {
@@ -219,12 +337,12 @@ namespace CAZ_DB.Access_DB
         }
         private string _account;
 
-        public string Amount
+        public double Amount
         {
             get
             {
-                if (_amount == null && dr != null)
-                    _amount = dr.Field<Decimal>("Amount").ToString();
+                if (dr != null)
+                    _amount = Decimal.ToDouble(dr.Field<Decimal>("Amount"));
                 return _amount;
             }
             set
@@ -233,14 +351,14 @@ namespace CAZ_DB.Access_DB
                 OnPropertyChanged();
             }
         }
-        private string _amount;
+        private double _amount;
 
-        public string AccountTotal
+        public double AccountTotal
         {
             get
             {
-                if (_accountTotal == null && dr != null)
-                    _accountTotal = dr.Field<Decimal>("AccountTotal").ToString();
+                if (dr != null)
+                    _accountTotal = Convert.ToDouble(dr.Field<Decimal>("AccountTotal"));
                 return _accountTotal;
             }
             set
@@ -249,7 +367,7 @@ namespace CAZ_DB.Access_DB
                 OnPropertyChanged();
             }
         }
-        private string _accountTotal;
+        private double _accountTotal;
 
         #endregion
 

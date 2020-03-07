@@ -72,6 +72,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Core\Budget\BudgetBuddyItem.cs" />
     <Compile Include="Core\Budget\BudgetBuddyView.xaml.cs">
       <DependentUpon>BudgetBuddyView.xaml</DependentUpon>
     </Compile>

@@ -11,6 +11,7 @@ using System.Windows.Input;
 using CAZ_Common.Commands;
 using System.Windows.Data;
 using CAZ_DB.Access_DB;
+using System.Collections.ObjectModel;
 
 namespace Project_Core
 {
@@ -34,20 +35,23 @@ namespace Project_Core
             ValidateInput();
         }
 
-        public List<BudgetBuddyItem> AccountItems
+        public ObservableCollection<BudgetBuddyItem> AccountItems
         {
             get
             {
-                return GetAccountItems();
+                if (_accountItems == null)
+                    _accountItems = new ObservableCollection<BudgetBuddyItem>(CAZ_DB.Access_DB.BudgetBuddyItems.GetBudgetItems().Select(bbi => new BudgetBuddyItem(bbi)));
+                return _accountItems;
             }
         }
+        private ObservableCollection<BudgetBuddyItem> _accountItems;
 
         public BudgetBuddyItem AccountItem
         {
             get
             {
                 if (_accountItem == null)
-                    _accountItem = new BudgetBuddyItem();
+                    _accountItem = new BudgetBuddyItem(new CAZ_DB.Access_DB.BudgetBuddyItem());
                 return _accountItem;
             }
             set
@@ -120,7 +124,7 @@ namespace Project_Core
         {
             get
             {
-                return new List<string>() { "Checking", "Savings" };
+                return Accounts.GetAccounts().Values.ToList<string>();
             }
         }
 
@@ -211,66 +215,68 @@ namespace Project_Core
         }
         private string _selectedType;
 
-        private List<BudgetBuddyItem> GetAccountItems()
+        public bool FilterAccountItems(BudgetBuddyItem item)
         {
-            List<BudgetBuddyItem> myItems = BudgetBuddyItems.GetBudgetItems();
+            DateTime date, date2;
 
             if (FromDateFilter != null && FromDateFilter != "")
             {
-                DateTime date = new DateTime();
-                DateTime date2 = new DateTime();
                 DateTime.TryParse(FromDateFilter, out date);
-                myItems = myItems.Where(i => DateTime.TryParse(i.Date, out date2) && date2 >= date).ToList();
+                DateTime.TryParse(item.Date.ToString(), out date2);
+                if (!(date2 >= date))
+                    return false;
             }
 
             if (ToDateFilter != null && ToDateFilter != "")
             {
-                DateTime date = new DateTime();
-                DateTime date2 = new DateTime();
                 DateTime.TryParse(ToDateFilter, out date);
-                myItems = myItems.Where(i => DateTime.TryParse(i.Date, out date2) && date2 <= date).ToList();
+                DateTime.TryParse(item.Date.ToString(), out date2);
+                if (!(date2 <= date))
+                    return false;
             }
 
             if (SelectedType != "All")
             {
-                myItems = myItems.Where(i => i.Type.Equals(SelectedType)).ToList();
+                if (!item.Type.Equals(SelectedType))
+                    return false;
             }
 
             if (SelectedAccount != "All")
             {
-                myItems = myItems.Where(i => i.Account.Equals(SelectedAccount)).ToList();
+                if (!item.Account.Equals(SelectedAccount))
+                    return false;
             }
 
             if (SearchedItem != null && SearchedItem != "")
             {
-                myItems = myItems.Where(i => i.Name.ToLower().Contains(SearchedItem.ToLower()) || i.Amount.ToString().Contains(SearchedItem)).ToList();
+                if (!item.Name.ToLower().Contains(SearchedItem.ToLower()) && !item.Amount.ToString().Contains(SearchedItem))
+                    return false;
             }
 
-            return myItems;
+            return true;
         }
 
         private void AddItem(object commandParameter)
         {
             if (ValidateInput())
             {
-                BudgetBuddyItems.AddItem(AccountItem);
-                OnPropertyChanged(nameof(AccountItems));
+                BudgetBuddyItems.AddItem(AccountItem.GetDBItem());
+                OnPropertyChanged(nameof(AccountItem));
                 AccountItem = null;
             }
         }
 
         private void DeleteItem(object commandParameter)
         {
-            BudgetBuddyItems.DeleteItem(((BudgetBuddyItem)SelectedBudgetItem).ID);
-            OnPropertyChanged(nameof(AccountItems));
-            AccountItem = null;
+            BudgetBuddyItems.DeleteItem(((BudgetBuddyItem)SelectedBudgetItem).GetDBItem().ID);
+            OnPropertyChanged(nameof(AccountItem));
         }
 
         private bool ValidateInput()
         {
-            IsAmountValid = CAZ_Common.Validators.IsStringValidDecimal(AccountItem.Amount);
+            IsAmountValid = CAZ_Common.Validators.IsStringValidDecimal(AccountItem.Amount.Split('$').Last());
 
-            IsTotalValid = CAZ_Common.Validators.IsStringValidDecimal(AccountItem.AccountTotal);
+            IsTotalValid = CAZ_Common.Validators.IsStringValidDecimal(AccountItem.AccountTotal.Split('$').Last());
 
             return IsAmountValid && IsTotalValid;
         }

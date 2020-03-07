@@ -21,14 +21,31 @@ namespace Project_Core
     {
         public BudgetBuddyView()
         {
-            this.DataContext = new BudgetBuddyViewModel();
+            vm = new BudgetBuddyViewModel();
+            this.DataContext = vm;
             InitializeComponent();
+
+            vm.PropertyChanged += Vm_PropertyChanged;
         }
 
-        private void dgGeneral_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        private void Vm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName.Equals("ID"))
-                e.Column.Visibility = Visibility.Collapsed;
+            if (e.PropertyName.Equals(nameof(BudgetBuddyViewModel.AccountItems)))
+                CollectionViewSource.GetDefaultView(dgGeneral.ItemsSource).Refresh();
+        }
+
+        private BudgetBuddyViewModel vm;
+
+        private void dgGeneral_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        {
+            vm.SelectedBudgetItem = ((BudgetBuddyItem)e.AddedCells.FirstOrDefault().Item);
+        }
+
+        private void CollectionViewSource_Filter(object sender, FilterEventArgs e)
+        {
+            BudgetBuddyItem item = (BudgetBuddyItem)e.Item;
+            if (item != null)
+                e.Accepted = vm.FilterAccountItems(item);
         }
     }
 }
