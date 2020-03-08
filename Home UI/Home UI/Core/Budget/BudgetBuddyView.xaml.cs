@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.ComponentModel;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -31,7 +32,10 @@ namespace Project_Core
         private void Vm_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals(nameof(BudgetBuddyViewModel.AccountItems)))
+            { 
                 CollectionViewSource.GetDefaultView(dgGeneral.ItemsSource).Refresh();
+                CollectionViewSource.GetDefaultView(dgGeneral.ItemsSource).SortDescriptions.Add(new SortDescription("Date", ListSortDirection.Descending));
+            }
         }
 
         private BudgetBuddyViewModel vm;

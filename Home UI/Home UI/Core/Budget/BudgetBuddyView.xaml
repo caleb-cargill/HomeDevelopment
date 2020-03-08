@@ -27,6 +27,10 @@
                 <MenuItem Command="{Binding DeleteItemCommand}" Header="Delete Item" />
             </ContextMenu>
 
+            <ContextMenu x:Key="lvcm" x:Name="lvcm">
+                <MenuItem Command="{Binding DeleteRecurringItemCommand}" Header="Delete Item" />
+            </ContextMenu>
+
             <CollectionViewSource
                 x:Key="cvsAccountItems"
                 Filter="CollectionViewSource_Filter"
@@ -228,26 +232,79 @@
                                 Margin="5"
                                 VerticalAlignment="Top"
                                 material:HintAssist.Hint="Item Name"
-                                Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
-                            <TextBlock
-                                Margin="5,20"
-                                VerticalAlignment="Top"
-                                Text="Every" />
+                                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                Text="{Binding RecurringAccountItem.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <TextBox
-                                Width="120"
+                                x:Name="tbRecurringItemAmount"
+                                Width="75"
                                 Margin="5"
                                 VerticalAlignment="Top"
-                                material:HintAssist.Hint="Month, 2 Months, etc."
-                                Style="{StaticResource MaterialDesignFloatingHintTextBox}" />
+                                material:HintAssist.Hint="Amount"
+                                Text="{Binding RecurringAccountItem.Amount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <TextBox.Style>
+                                    <Style BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}" TargetType="{x:Type TextBox}">
+                                        <Setter Property="Background" Value="Transparent" />
+                                        <Setter Property="ToolTip" Value="Amount of income/expense" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsRecurringAmountValid, UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                                <Setter Property="Background" Value="LightPink" />
+                                                <Setter Property="ToolTip" Value="Not a valid input" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                            <TextBox
+                                Width="130"
+                                Margin="5"
+                                VerticalAlignment="Top"
+                                material:HintAssist.Hint="1st of Every Month, etc."
+                                Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                                Text="{Binding RecurringAccountItem.Repeat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <ComboBox
+                                Width="80"
+                                Margin="5"
+                                VerticalAlignment="Top"
+                                material:HintAssist.Hint="Account"
+                                ItemsSource="{Binding AccountNames, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                SelectedItem="{Binding RecurringAccountItem.Account, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                Style="{StaticResource MaterialDesignFloatingHintComboBox}" />
                             <Button
                                 x:Name="btnAddRecurringItem"
                                 Width="Auto"
                                 Margin="5"
                                 Padding="5"
                                 VerticalAlignment="Center"
+                                Command="{Binding AddRecurringItemCommand}"
                                 Content="Add" />
                         </WrapPanel>
-                        <ListView ItemsSource="{Binding RecurringAccountItems}" />
+                        <ListView
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            ContextMenu="{StaticResource lvcm}"
+                            ItemsSource="{Binding RecurringAccountItems}"
+                            SelectedItem="{Binding SelectedRecurringAccountItem, Mode=OneWayToSource}">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn
+                                        Width="Auto"
+                                        DisplayMemberBinding="{Binding Name}"
+                                        Header="Name" />
+                                    <GridViewColumn
+                                        Width="Auto"
+                                        DisplayMemberBinding="{Binding Amount}"
+                                        Header="Amount" />
+                                    <GridViewColumn
+                                        Width="Auto"
+                                        DisplayMemberBinding="{Binding Repeat}"
+                                        Header="Repeats" />
+                                    <GridViewColumn
+                                        Width="Auto"
+                                        DisplayMemberBinding="{Binding Account}"
+                                        Header="Account" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
                     </StackPanel>
                 </GroupBox>
             </Expander>

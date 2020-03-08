@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using CAZ_Common.Commands;
 using System.Windows.Data;
-using CAZ_DB.Access_DB;
 using System.Collections.ObjectModel;
 
 namespace Project_Core
@@ -28,11 +27,16 @@ namespace Project_Core
 
         public ICommand DeleteItemCommand => new CAZ_Common.Commands.DelegateCommand(DeleteItem);
 
+        public ICommand AddRecurringItemCommand => new CAZ_Common.Commands.DelegateCommand(AddRecurringItem);
+
+        public ICommand DeleteRecurringItemCommand => new CAZ_Common.Commands.DelegateCommand(DeleteRecurringItem);
+
         public ICommand ResetFilterCommand => new CAZ_Common.Commands.DelegateCommand(ResetFilter);
 
         public BudgetBuddyViewModel()
         {
             ValidateInput();
+            ValidateRecurringInput();
         }
 
         public ObservableCollection<BudgetBuddyItem> AccountItems
@@ -62,6 +66,33 @@ namespace Project_Core
         }
         private BudgetBuddyItem _accountItem;
 
+        public ObservableCollection<RecurringItem> RecurringAccountItems
+        {
+            get
+            {
+                if (_recurringAccountItems == null)
+                    _recurringAccountItems = new ObservableCollection<RecurringItem>(CAZ_DB.Access_DB.RecurringItems.GetRecurringItems().Select(ri => new RecurringItem(ri)));
+                return _recurringAccountItems;
+            }
+        }
+        private ObservableCollection<RecurringItem> _recurringAccountItems;
+
+        public RecurringItem RecurringAccountItem
+        {
+            get
+            {
+                if (_recurringItem == null)
+                    _recurringItem = new RecurringItem(new CAZ_DB.Access_DB.RecurringItem());
+                return _recurringItem;
+            }
+            set
+            {
+                _recurringItem = value;
+                OnPropertyChanged();
+            }
+        }
+        private RecurringItem _recurringItem;
+
         public bool IsAmountValid
         {
             get
@@ -75,6 +106,20 @@ namespace Project_Core
             }
         }
         private bool _isAmountValid;
+
+        public bool IsRecurringAmountValid
+        {
+            get
+            {
+                return _isRecurringAmountValid;
+            }
+            set
+            {
+                _isRecurringAmountValid = value;
+                OnPropertyChanged();
+            }
+        }
+        private bool _isRecurringAmountValid;
 
         public bool IsTotalValid
         {
@@ -120,11 +165,25 @@ namespace Project_Core
         }
         private object _selectedBudgetItem;
 
+        public object SelectedRecurringAccountItem
+        {
+            get
+            {
+                return _selectedRecurringAccountItem;
+            }
+            set
+            {
+                _selectedRecurringAccountItem = value;
+                OnPropertyChanged();
+            }
+        }
+        private object _selectedRecurringAccountItem;
+
         public List<string> AccountNames
         {
             get
             {
-                return Accounts.GetAccounts().Values.ToList<string>();
+                return CAZ_DB.Access_DB.Accounts.GetAccounts().Values.ToList<string>();
             }
         }
 
@@ -260,16 +319,38 @@ namespace Project_Core
         {
             if (ValidateInput())
             {
-                BudgetBuddyItems.AddItem(AccountItem.GetDBItem());
-                OnPropertyChanged(nameof(AccountItem));
+                CAZ_DB.Access_DB.BudgetBuddyItems.AddItem(AccountItem.GetDBItem());
                 AccountItem = null;
+                OnPropertyChanged(nameof(AccountItem));
+                _accountItems = null;
+                OnPropertyChanged(nameof(AccountItems));
+            }
+        }
+
+        private void AddRecurringItem(object commandParameter)
+        {
+            if (ValidateRecurringInput())
+            {
+                CAZ_DB.Access_DB.RecurringItems.AddItem(RecurringAccountItem.GetDBItem());
+                RecurringAccountItem = null;
+                OnPropertyChanged(nameof(RecurringAccountItem));
+                _recurringAccountItems = null;
+                OnPropertyChanged(nameof(RecurringAccountItems));
             }
         }
 
         private void DeleteItem(object commandParameter)
         {
-            BudgetBuddyItems.DeleteItem(((BudgetBuddyItem)SelectedBudgetItem).GetDBItem().ID);
-            OnPropertyChanged(nameof(AccountItem));
+            CAZ_DB.Access_DB.BudgetBuddyItems.DeleteItem(((BudgetBuddyItem)SelectedBudgetItem).GetDBItem().ID);
+            _accountItems = null;
+            OnPropertyChanged(nameof(AccountItems));
+        }
+
+        private void DeleteRecurringItem(object commandParameter)
+        {
+            CAZ_DB.Access_DB.RecurringItems.DeleteItem(((RecurringItem)SelectedRecurringAccountItem).GetDBItem().ID);
+            _recurringAccountItems = null;
+            OnPropertyChanged(nameof(RecurringAccountItems));
         }
 
         private bool ValidateInput()
@@ -279,6 +360,13 @@ namespace Project_Core
             IsTotalValid = CAZ_Common.Validators.IsStringValidDecimal(AccountItem.AccountTotal.Split('$').Last());
 
             return IsAmountValid && IsTotalValid;
+        }
+
+        private bool ValidateRecurringInput()
+        {
+            IsRecurringAmountValid = CAZ_Common.Validators.IsStringValidDecimal(RecurringAccountItem.Amount.Split('$').Last());
+
+            return IsRecurringAmountValid;
         }
 
         private void ResetFilter(object commandParameter)

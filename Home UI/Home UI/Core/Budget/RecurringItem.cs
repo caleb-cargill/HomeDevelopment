@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Project_Core
 {
-    class BudgetBuddyItem : INotifyPropertyChanged
+    class RecurringItem : INotifyPropertyChanged
     {
 
         #region Events
@@ -19,7 +19,7 @@ namespace Project_Core
 
         #region Constructor
 
-        public BudgetBuddyItem(CAZ_DB.Access_DB.BudgetBuddyItem item)
+        public RecurringItem(CAZ_DB.Access_DB.RecurringItem item)
         {
             DBItem = item;
         }
@@ -28,26 +28,7 @@ namespace Project_Core
 
         #region Properties
 
-        private CAZ_DB.Access_DB.BudgetBuddyItem DBItem { get; set; }
-
-        public string Date
-        {
-            get
-            {
-                if (_date == null && DBItem != null)
-                    _date = DBItem.Date.ToString("MM/dd/yyyy");
-                return _date;
-            }
-            set
-            {
-                _date = value;
-                DateTime date = new DateTime();
-                DateTime.TryParse(_date, out date);
-                DBItem.Date = date;
-                OnPropertyChanged();
-            }
-        }
-        private string _date;
+        private CAZ_DB.Access_DB.RecurringItem DBItem { get; set; }
 
         public string Name
         {
@@ -66,22 +47,22 @@ namespace Project_Core
         }
         private string _name;
 
-        public string Type
+        public string Repeat
         {
             get
             {
-                if (_type == null && DBItem != null)
-                    _type = DBItem.Type;
-                return _type;
+                if (_repeat == null && DBItem != null)
+                    _repeat = DBItem.Repeat;
+                return _repeat;
             }
             set
             {
-                _type = value;
-                DBItem.Type = _type;
+                _repeat = value;
+                DBItem.Repeat = _repeat;
                 OnPropertyChanged();
             }
         }
-        private string _type;
+        private string _repeat;
 
         public string Account
         {
@@ -117,28 +98,11 @@ namespace Project_Core
         }
         private string _amount;
 
-        public string AccountTotal
-        {
-            get
-            {
-                if (_accountTotal == null && DBItem != null)
-                    _accountTotal = $"{(DBItem.AccountTotal < 0 ? "-" : "")}${Math.Abs(DBItem.AccountTotal)}";
-                return _accountTotal;
-            }
-            set
-            {
-                _accountTotal = value;
-                DBItem.AccountTotal = CAZ_Common.Converters.ConvertCurrencyStringToDouble(_accountTotal);
-                OnPropertyChanged();
-            }
-        }
-        private string _accountTotal;
-
         #endregion
 
         #region Methods
 
-        public CAZ_DB.Access_DB.BudgetBuddyItem GetDBItem()
+        public CAZ_DB.Access_DB.RecurringItem GetDBItem()
         {
             return DBItem;
         }

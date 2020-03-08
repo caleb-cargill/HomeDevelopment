@@ -116,14 +116,222 @@ namespace CAZ_DB.Access_DB
 
 
     public static class RecurringItems {
-        public static List<string> GetRecurringItems()
+
+        #region Properties
+
+        private static string connection = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source = C:\Users\caleb\source\repos\HomeDevelopment\Home UI\CAZ DB Connection\Access DB\CAZAccessDB.accdb";
+        private static string query = "SELECT * FROM Tbl_RecurringItems";
+        private static DataTable dataTable;
+        private static OleDbConnection myConn;
+
+        #endregion
+
+        #region Methods
+
+        public static List<RecurringItem> GetRecurringItems()
         {
-            List<string> items = new List<string>();
+            List<RecurringItem> items = new List<RecurringItem>();
+
+            // Setup connection and command
+            myConn = new OleDbConnection(connection);
+            OleDbDataAdapter myCmd = new OleDbDataAdapter(query, myConn);
+            myConn.Open();
+
+            // fill a data table
+            DataSet dtSet = new DataSet();
+            myCmd.Fill(dtSet, "Tbl_RecurringItems");
+            dataTable = dtSet.Tables[0];
+
+            // Create list of BudgetBuddyItems
+            foreach (DataRow dr in dataTable.Rows)
+                items.Add(new RecurringItem(dr));
+
+            // Close the connection and return the items
+            myConn.Close();
 
             return items;
         }
+
+        public static void AddItem(RecurringItem item)
+        {
+            // Setup connection and parse date
+            myConn = new OleDbConnection(connection);
+
+            try
+            {
+                // Open connection and setup command
+                myConn.Open();
+                OleDbCommand myCmd = new OleDbCommand();
+                myCmd.Connection = myConn;
+
+                // Create insert statement
+                myCmd.CommandText = "insert into Tbl_RecurringItems " +
+                    "(ItemName, Repeat, Amount, Account) " +
+                    "values('" + item.Name + "'," +
+                    "'" + item.Repeat + "'," +
+                    "'" + item.Amount + "'," +
+                    "'" + item.Account + "')";
+
+                // Execute command
+                myCmd.ExecuteNonQuery();
+            }
+            catch
+            {
+                // TODO: Create error message
+            }
+
+            // Close the connection
+            myConn.Close();
+        }
+
+        public static void DeleteItem(int id)
+        {
+            // Setup connection and parse date
+            myConn = new OleDbConnection(connection);
+
+            try
+            {
+                // Open connection and setup command
+                myConn.Open();
+                OleDbCommand myCmd = new OleDbCommand();
+                myCmd.Connection = myConn;
+
+                // setup delete command
+                myCmd.CommandText = "delete from Tbl_RecurringItems where ID=" + id;
+
+                // execute
+                myCmd.ExecuteNonQuery();
+            }
+            catch
+            {
+                // TODO : Create error message
+            }
+
+            // close the connection
+            myConn.Close();
+        }
+
+        #endregion
+
     }
 
+    public class RecurringItem : INotifyPropertyChanged
+    {
+
+        #region Events
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
+
+        #region Constructor
+
+        public RecurringItem()
+        {
+
+        }
+
+        public RecurringItem(DataRow _dr)
+        {
+            dr = _dr;
+        }
+
+        #endregion
+
+        #region Properties
+
+        private DataRow dr;
+
+        public int ID
+        {
+            get
+            {
+                return dr.Field<int>("ID");
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                if (_name == null && dr != null)
+                    _name = dr.Field<string>("ItemName");
+                return _name;
+            }
+            set
+            {
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _name;
+
+        public string Repeat
+        {
+            get
+            {
+                if (_repeat == null && dr != null)
+                    _repeat = dr.Field<string>("Repeat");
+                return _repeat;
+            }
+            set
+            {
+                _repeat = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _repeat;
+
+        public double Amount
+        {
+            get
+            {
+                if (dr != null)
+                    _amount = Decimal.ToDouble(dr.Field<Decimal>("Amount"));
+                return _amount;
+            }
+            set
+            {
+                _amount = value;
+                OnPropertyChanged();
+            }
+        }
+        private double _amount;
+
+        public string Account
+        {
+            get
+            {
+                if (_account == null && dr != null)
+                    _account = dr.Field<string>("Account");
+                return _account;
+            }
+            set
+            {
+                _account = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _account;
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Raises OnPropertyChanged Event
+        /// </summary>
+        /// <param name="propertyName"></param>
+        /// <param name="newValue"></param>
+        /// <param name="oldValue"></param>
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null, object newValue = null, object oldValue = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName: propertyName));
+        }
+
+        #endregion
+
+    }
 
     public static class BudgetBuddyItems
     {
